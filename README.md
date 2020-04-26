@@ -5,13 +5,13 @@
 
 <!-- badges: start -->
 
-<!-- badges: start --->
-
-[![build](https://github.com/RamiKrispin/covid19italy/workflows/build/badge.svg?branch=master)](https://github.com/RamiKrispin/covid19italy/actions?query=workflow%3Abuild)
+[![build](https://github.com/covid19r/covid19italy/workflows/build/badge.svg?branch=master)](https://github.com/covid19r/covid19italy/actions?query=workflow%3Abuild)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/covid19italy)](https://cran.r-project.org/package=covid19italy)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![GitHub
+commit](https://img.shields.io/github/last-commit/covid19r/covid19italy)](https://github.com/covid19r/covid19Italy/commit/master)
 <!-- badges: end -->
 
 The covid19italy R package provides a tidy format dataset of the 2019
@@ -23,30 +23,42 @@ package includes the following three datasets:
   - `italy_province` - daily summary of the outbreak on the province
     level
 
+More information about the package datasets available
+[here](https://covid19r.github.io/covid19italy/articles/intro.html), and
+supporting dashboard available
+[here](https://ramikrispin.github.io/italy_dash/).
+
 Data source: [Italy Department of Civil
 Protection](http://www.protezionecivile.it/)
+
+[<img src="man/figures/Italy_province.png" width="100%" />](https://covid19r.github.io/covid19italy/articles/geospatial_visualization.html)
 
 ## Installation
 
 You can install the released version of covid19italy from
-[CRAN](https://CRAN.R-project.org) with:
+[CRAN](https://cran.r-project.org/package=covid19italy) with:
 
 ``` r
 install.packages("covid19italy")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+Or, install the most recent version from
+[GitHub](https://github.com/Covid19R/covid19italy) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("RamiKrispin/covid19Italy")
+devtools::install_github("Covid19R/covid19Italy")
 ```
 
 ## Data refresh
 
-The **covid19italy** package dev version is been updated on a daily
-bases. The `update_data` function enables a simple refresh of the
-installed package datasets with the most updated version on Github:
+While the **covid19italy** [CRAN
+version](https://cran.r-project.org/package=covid19italy) is updated
+every month or two, the [Github (Dev)
+version](https://github.com/Covid19R/covid19italy) is updated on a daily
+bases. The `update_data` function enables to overcome this gap and keep
+the installed version with the most recent data available on the Github
+version:
 
 ``` r
 library(covid19italy)
@@ -54,21 +66,28 @@ library(covid19italy)
 update_data()
 ```
 
+**Note:** must restart the R session to have the updates available
+
 ## Usage
 
 ``` r
-
-
 data(italy_total)
 
 head(italy_total)
-#>         date hospitalized_with_symptoms intensive_care total_hospitalized home_confinement total_currently_positive new_currently_positive recovered death total_positive_cases total_tests
-#> 1 2020-02-24                        101             26                127               94                      221                    221         1     7                  229        4324
-#> 2 2020-02-25                        114             35                150              162                      311                     90         1    10                  322        8623
-#> 3 2020-02-26                        128             36                164              221                      385                     74         3    12                  400        9587
-#> 4 2020-02-27                        248             56                304              284                      588                    203        45    17                  650       12014
-#> 5 2020-02-28                        345             64                409              412                      821                    233        46    21                  888       15695
-#> 6 2020-02-29                        401            105                506              543                     1049                    228        50    29                 1128       18661
+#>         date hospitalized_with_symptoms intensive_care total_hospitalized home_confinement cumulative_positive_cases daily_positive_cases recovered death cumulative_cases total_tests
+#> 1 2020-02-24                        101             26                127               94                       221                    0         1     7              229        4324
+#> 2 2020-02-25                        114             35                150              162                       311                   90         1    10              322        8623
+#> 3 2020-02-26                        128             36                164              221                       385                   74         3    12              400        9587
+#> 4 2020-02-27                        248             56                304              284                       588                  203        45    17              650       12014
+#> 5 2020-02-28                        345             64                409              412                       821                  233        46    21              888       15695
+#> 6 2020-02-29                        401            105                506              543                      1049                  228        50    29             1128       18661
+#>   total_people_tested
+#> 1                  NA
+#> 2                  NA
+#> 3                  NA
+#> 4                  NA
+#> 5                  NA
+#> 6                  NA
 ```
 
 ### Plotting the active cases distribution
@@ -105,7 +124,7 @@ plot_ly(data = italy_total,
 ``` r
 plot_ly(data = italy_total,
         x = ~ date,
-        y = ~total_currently_positive, 
+        y = ~ cumulative_positive_cases, 
         name = 'Active', 
         fillcolor = '#1f77b4',
         type = 'scatter',
@@ -131,13 +150,13 @@ plot_ly(data = italy_total,
 ``` r
 italy_region %>% 
   filter(date == max(date)) %>% 
-  select(region_name, total_currently_positive, recovered, death, total_positive_cases) %>%
-  arrange(-total_positive_cases) %>%
+  select(region_name, cumulative_positive_cases, recovered, death, cumulative_cases) %>%
+  arrange(-cumulative_cases) %>%
   mutate(region = factor(region_name, levels = region_name)) %>%
   plot_ly(y = ~ region, 
-          x = ~ total_currently_positive, 
+          x = ~ cumulative_positive_cases, 
           orientation = 'h',
-          text =  ~ total_currently_positive,
+          text =  ~ cumulative_positive_cases,
           textposition = 'auto',
           type = "bar", 
           name = "Active",
@@ -164,7 +183,7 @@ italy_region %>%
            b = 10,
            t = 30,
            pad = 2
-         ))
+         )) 
 ```
 
 <img src="man/figures/region_bar_plot.png" width="100%" />
@@ -182,3 +201,10 @@ italy_province %>%
 ```
 
 <img src="man/figures/province_pie.png" width="100%" />
+
+## Supporting Dashboard
+
+A supporting dashboard for the **covid19italy** datasets available
+[here](https://ramikrispin.github.io/italy_dash/).
+
+<img src="man/figures/dashboard.png" width="100%" />
