@@ -1,3 +1,17 @@
+## Version 0.3.0
+* Updates for the **italy_total** dataset:
+
+  - Added `positive_clinical_activity` - positive cases emerged from clinical activity
+  - Added `positive_surveys_tests` - positive cases emerging from surveys and tests, planned at national or regional level
+
+* Updates for the **italy_region** dataset:
+
+  - Added `positive_clinical_activity` - positive cases emerged from clinical activity
+  - Added `positive_surveys_tests` - positive cases emerging from surveys and tests, planned at national or regional level
+
+* Updated the data refresh automation - set [docker image](https://hub.docker.com/r/rkrispin/covid19italy) to support the cron job on [Github Actions](https://github.com/RamiKrispin/covid19Italy/blob/master/.github/workflows/data_refresh_docker.yml)
+
+
 ## Version 0.2.0
 
 * Automated the data refresh on the Github version with the use of Github Actions
