@@ -1,3 +1,12 @@
+## Version 0.3.1
+
+* Fixed error on the data pipeline
+* Added new fields for the **italy_total** dataset 
+* Added new fields for the **italy_province** dataset 
+* Updated Github actions:
+    - Create dev and prod docker environments
+    - Modify the R CMD to run with docker
+
 ## Version 0.3.0
 * Updates for the **italy_total** dataset:
 

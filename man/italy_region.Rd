@@ -8,7 +8,7 @@
 A data.frame object
 }
 \source{
-Presidenza del Consiglio dei Ministri - Dipartimento della Protezione Civile \href{http://www.protezionecivile.it/}{website}
+Presidenza del Consiglio dei Ministri - Dipartimento della Protezione Civile \href{https://www.protezionecivile.it/}{website}
 }
 \usage{
 italy_region
@@ -54,6 +54,20 @@ The dataset contains the daily summary of the Coronavirus pandemic cases in Ital
 - total_tests - number of tests performed
 
 - total_people_tested - total number of people tested
+
+- new_intensive_care - daily admissions to intensive care
+
+- total_positive_tests - total positive tests
+
+- total_fast_tests - total fast tests
+
+- daily_positive_tests - daily positive tests
+
+- daily_fast_tests - daily fasts tests
+
+- nuts_code_1 - NUTS statistical regions of Italy more details available more details available \href{https://en.wikipedia.org/wiki/NUTS_statistical_regions_of_Italy}{here}
+
+- nuts_code_2 - NUTS statistical regions of Italy more details available \href{https://en.wikipedia.org/wiki/NUTS_statistical_regions_of_Italy}{here}
 
 - region_spatial - the spatial region names as in the output of the `ne_states` function from the **rnaturalearth** package
 }

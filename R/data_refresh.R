@@ -16,33 +16,30 @@ update_data <- function(){
   region_current <- covid19italy::italy_region
   province_current <- covid19italy::italy_province
 
-  total_git <- utils::read.csv("https://raw.githubusercontent.com/RamiKrispin/covid19Italy/master/csv/italy_total.csv",
-                        stringsAsFactors = FALSE)
-
-  region_git <- utils::read.csv("https://raw.githubusercontent.com/RamiKrispin/covid19Italy/master/csv/italy_region.csv",
-                         stringsAsFactors = FALSE)
-
-  province_git <- utils::read.csv("https://raw.githubusercontent.com/RamiKrispin/covid19Italy/master/csv/italy_province.csv")
+  total_git <- as.data.frame(readr::read_csv("https://raw.githubusercontent.com/RamiKrispin/covid19Italy/master/csv/italy_total.csv",
+                                             locale = readr::locale(encoding = "ASCII")))
 
 
-  total_git$date <- as.Date(total_git$date)
-  region_git$date <- as.Date(region_git$date)
-  province_git$date <- as.Date(province_git$date)
+  region_git <- as.data.frame(readr::read_csv("https://raw.githubusercontent.com/RamiKrispin/covid19Italy/master/csv/italy_region.csv",
+                              locale = readr::locale(encoding = "ASCII")))
 
 
-  if(!base::identical(total_git, total_current)){
+  province_git <- as.data.frame(readr::read_csv("https://raw.githubusercontent.com/RamiKrispin/covid19Italy/master/csv/italy_province.csv",
+                                locale = readr::locale(encoding = "ASCII")))
+
+  if(!base::identical(dim(total_git), dim(total_current))){
     if(base::nrow(total_git) > base::nrow(total_current)){
       flag <- TRUE
     }
   }
 
-  if(!base::identical(region_git, region_current)){
+  if(!base::identical(dim(region_git), dim(region_current))){
     if(base::nrow(region_git) > base::nrow(region_current)){
       flag <- TRUE
     }
   }
 
-  if(!base::identical(province_git, province_current)){
+  if(!base::identical(dim(province_git), dim(province_current))){
     if(base::nrow(province_git) > base::nrow(province_current)){
       flag <- TRUE
     }
